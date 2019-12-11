@@ -1,4 +1,10 @@
 <?php
+$ini = @parse_ini_file('env/.env', true);
+
+$accName = $ini['ACCOUNT_NAME'];
+$accKey = $ini['ACCOUNT_KEY'];
+
+
 /**----------------------------------------------------------------------------------
 * Microsoft Developer & Platform Evangelism
 *
@@ -41,7 +47,8 @@ use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
 use MicrosoftAzure\Storage\Blob\Models\CreateContainerOptions;
 use MicrosoftAzure\Storage\Blob\Models\PublicAccessType;
 
-$connectionString = "DefaultEndpointsProtocol=https;AccountName=".getenv('ACCOUNT_NAME').";AccountKey=".getenv('ACCOUNT_KEY');
+//$connectionString = "DefaultEndpointsProtocol=https;AccountName=".getenv('ACCOUNT_NAME').";AccountKey=".getenv('ACCOUNT_KEY');
+$connectionString = "DefaultEndpointsProtocol=https;AccountName=".$accName.";AccountKey=".$accKey;
 
 // Create blob client.
 $blobClient = BlobRestProxy::createBlobService($connectionString);
@@ -79,8 +86,8 @@ if (!isset($_GET["Cleanup"])) {
         $blobClient->createContainer($containerName, $createContainerOptions);
 
         // Getting local file so that we can upload it to Azure
-        $myfile = fopen($fileToUpload, "w") or die("Unable to open file!");
-        fclose($myfile);
+        //$myfile = fopen($fileToUpload, "w") or die("Unable to open file!");
+        //fclose($myfile);
         
         # Upload file as a block blob
         echo "Uploading BlockBlob: ".PHP_EOL;
